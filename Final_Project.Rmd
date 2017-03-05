@@ -1,0 +1,84 @@
+---
+title: <span style="color:blue">Quick Top Ten Graph</span>
+author: "Mike McLaughlin"
+date: "March 5, 2017"
+output: slidy_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## <span style="color:blue">Quick Top Ten Graph - Time Savings</span>
+
+This application will replace a processes that is currently completed using Microsoft Excel.  
+
+- Each mornign a text file is automatically downloaded.
+
+- Average file contains 95K lines of data.
+
+- Data must be summarized and a table showing the top ten transactions by volume must be printed and made available to seneior managers.
+
+- A graph is included at the request of one manager.
+
+The process takes about 15 minutes to be completed by an experienced analyst.   However, staff turn-over can result in errors and delays.   This new process will take about 5 minutes and reduce errors.
+
+## <span style="color:blue">Requirements</span>
+
+- Text File with field names in the first row.
+- File must contain numeric and text fields.
+- Understanding of the data being processed - Otherwise, the graphs may not make sense.
+
+The basic assumption is that a person creating these graphs understands the data and the purpose of the graph.   
+
+## <span style="color:blue">Output Samples</span> 
+
+This will generate a graph and a table.
+
+####<span style="color:blue">Sample Graph and Table</span>
+```{r graphs, echo=FALSE, warning=FALSE,fig.width=10,fig.height=4.5}
+rm(list=ls())
+library("ggplot2")
+library("gridExtra")
+library("plyr")
+
+#-------------------------
+
+
+sampleGraphFile2 <- read.delim("C:/2017/Blog/Data_Files/cntry_cnt.txt",header=TRUE,sep=",",comment.char = "")
+df2 <- data.frame(sampleGraphFile2)
+
+
+df2 <- sampleGraphFile2
+
+
+dfSortPlot2 <- head(arrange(df2,desc(df2$Unique.Vistors)), n = 10)
+dfSortPlot2 <- dfSortPlot2[,1:2]
+
+
+Plot2 <- ggplot(dfSortPlot2, aes(x=dfSortPlot2[,1], y=dfSortPlot2[,2])) +
+  geom_bar(stat='identity',fill="blue", colour="black") +
+  xlab("Category") +  ylab("") +
+  coord_flip() +
+  scale_fill_hue() +
+  theme_bw()
+
+print("Graph - Tab 1")
+Plot2
+
+print("Table - Tab 2")
+dfSortPlot2
+
+```
+
+table with code.
+
+
+
+## <span style="color:blue">Next Steps</span>
+
+- <span style="color:blue">Add additonal calculations such as averages, factors and standard diviations.</span>
+- <span style="color:red">Review security concerns at this process resides on an external server.</span>
+- <span style="color:blue">If security is a concern, review cost to build in-house system.</span>
+- <span style="color:blue">Train additional staff on the process.</span>
+</span>
